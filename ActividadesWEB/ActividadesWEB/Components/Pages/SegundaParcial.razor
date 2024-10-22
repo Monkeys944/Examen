@@ -1,0 +1,86 @@
+﻿@page "/SegundaParcial"
+@rendermode InteractiveServer
+@using ActividadesWEB.Models
+
+<h1>Estudiantes</h1>
+<EditForm Model="_producto" OnValidSubmit="Agregar" FormName="frnProductos">
+    <DataAnnotationsValidator />
+    <div class="row align-items-center mb-3">
+        <div class="col-2">
+            <label for="Inventario" class="col-form-label">Inventario</label>
+        </div>
+        <div class="col-10">
+            <InputNumber id="Inventario" class="form-control" @bind-Value="_producto.Inventario" />
+            <ValidationMessage For="@(()=>_producto.Inventario)" />
+        </div>
+    </div>
+    <div class="row align-items-center mb-3">
+        <div class="col-2">
+            <label for="Nombre" class="col-form-label">Nombre</label>
+        </div>
+        <div class="col-10">
+            <InputText type="string" id="Nombre" class="form-control" @bind-Value="_producto.Nombre" />
+            <ValidationMessage For="@(()=>_producto.Nombre)" />
+        </div>
+    </div>
+    <div>
+    <div class="form-check form-check-inline">
+        <InputRadioGroup class="form-check-input" name="inlineRadioOptions" id="inlineRadio1" @bind-Value="_producto.Departamento" />
+        <label class="form-check-label" for="inlineRadio1">Fruta</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <InputRadioGroup class="form-check-input" name="inlineRadioOptions" id="inlineRadio2" @bind-Value="_producto.Departamento" />
+        <label class="form-check-label" for="inlineRadio2">Verdura</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <InputRadioGroup class="form-check-input" name="inlineRadioOptions" id="inlineRadio3" @bind-Value="_producto.Departamento"/>
+        <label class="form-check-label" for="inlineRadio3">Lacteo</label>
+    </div>
+</div>
+    <button class="btn btn-warning" type="submit">Agregar</button>
+</EditForm>
+
+<br />
+
+<div class="col-8">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <td>Numero de Inventario</td>
+                <td>Nombre del Producto</td>
+                <td>Departamento</td>
+                <td>Accion</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _listProductos)
+            {
+                <tr>
+                    <td>@item.Inventario</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Departamento</td>
+                    <td><i class="bi bi-trash3-fill" @onclick="()=>Eliminar(item)"></i></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code {
+    private Productos _producto = new Productos();
+    private List<Productos> _listProductos = new List<Productos>();
+    private string fruta = "Fruta", verdura = "Verdura", lacteo = "Lacteo";
+
+
+    private void Agregar()
+    {
+        _listProductos.Add(_producto);
+        _producto = new Productos();
+    }
+    private void Eliminar(Productos item)
+    {
+        _listProductos.Remove(item);
+    }
+
+}

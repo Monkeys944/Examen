@@ -1,0 +1,49 @@
+﻿@page "/Actividad13"
+@rendermode InteractiveServer
+
+<h1>Agrega Actividades a tu Lista</h1>
+<div class="row align-items-center mb-3">
+    <div class="col-2">
+        <label for="txtAct" class="col-form-label">Actividad:</label>  
+    </div>
+    <div class="col-7">
+        <input type="text" id="txtAct" class="form-control" @bind="_actividad" />
+    </div>
+</div>
+<button class="btn btn-warning mb-3" @onclick="Guardar">Guardar</button>
+
+<div class="col-9">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <td scope="col">Terminar Tarea</td>
+                <td scope="col">Actividades</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _listAct)
+            {
+                <tr>
+                    <td scope="row"><i class="bi bi-trash3-fill" @onclick="()=>Remove(item)"></i></td>
+                    <td>@item</td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<string> _listAct = new List<string>();
+    private string _actividad = string.Empty;
+    private string _tabla = string.Empty;
+
+    private void Guardar()
+    {
+        _listAct.Add(_actividad);
+        _actividad = string.Empty;
+    }
+    private void Remove(string value)
+    {
+        _listAct.Remove(value);
+    }
+}

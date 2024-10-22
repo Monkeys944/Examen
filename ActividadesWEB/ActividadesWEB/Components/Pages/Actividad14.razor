@@ -1,0 +1,79 @@
+﻿@page "/Actividad14"
+@rendermode InteractiveServer
+@using ActividadesWEB.Models
+
+<h1>Estudiantes</h1>
+<EditForm Model="_elEstudiante" OnValidSubmit="Agregar" FormName="frnEstudiantes">
+    <DataAnnotationsValidator />
+    <div class="row align-items-center mb-3">
+        <div class="col-2">
+            <label for="Nombre" class="col-form-label">Nombre</label>
+        </div>
+        <div class="col-10">
+            <InputText type="string" id="Nombre" class="form-control" @bind-Value="_elEstudiante.Nombre" />
+            <ValidationMessage For="@(()=>_elEstudiante.Nombre)" />
+        </div>
+    </div>
+    <div class="row align-items-center mb-3">
+        <div class="col-2">
+            <label for="Correo" class="col-form-label">Correo</label>
+        </div>
+        <div class="col-10">
+            <InputText type="string" id="Correo" class="form-control" @bind-Value="_elEstudiante.Correo" />
+            <ValidationMessage For="@(()=>_elEstudiante.Correo)" />
+        </div>
+    </div>
+    <div class="row align-items-center mb-3">
+        <div class="col-2">
+            <label for="Calificacion" class="col-form-label">Calificacion</label>
+        </div>
+        <div class="col-10">
+            <InputNumber id="Calificacion" class="form-control" @bind-Value="_elEstudiante.Calificacion" />
+            <ValidationMessage For="@(()=>_elEstudiante.Calificacion)" />
+        </div>
+    </div>
+    <button class="btn btn-warning" type="submit">Agregar</button>
+</EditForm>
+
+<br/>
+
+<div class="col-5">
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <td>Nombre</td>
+                <td>Correo</td>
+                <td>Calificacion</td>
+                <td>Accion</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _listaEstudiantes)
+            {
+              <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Correo</td>
+                    <td>@item.Calificacion</td>
+                    <td><i class="bi bi-trash3-fill" @onclick="()=>Eliminar(item)"></i></td>
+              </tr>  
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@code {
+    private Estudiante _elEstudiante = new Estudiante();
+    private List<Estudiante> _listaEstudiantes = new List<Estudiante>();
+
+    private void Agregar()
+    {
+        _listaEstudiantes.Add(_elEstudiante);
+        _elEstudiante = new Estudiante();
+    }
+    private void Eliminar(Estudiante item)
+    {
+        _listaEstudiantes.Remove(item);
+    }
+
+}
